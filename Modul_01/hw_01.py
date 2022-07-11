@@ -26,6 +26,10 @@ assert (a.class_number, b.class_number) == (0, 1) """
 from abc import ABCMeta, abstractmethod, ABC
 import json
 import pickle
+import logging
+from my_logger import get_logger
+
+logger = get_logger(__name__)
 
 
 class SerializationInterface(metaclass=ABCMeta):
@@ -33,6 +37,7 @@ class SerializationInterface(metaclass=ABCMeta):
         self.data = data
         self.__filename = None
         self.filename = filename
+        logger.info(f'{self.filename}')
 
     @abstractmethod
     def serialize(self):
@@ -54,16 +59,19 @@ class SerializeJson(SerializationInterface):
         if parse[1] == 'json':
             self.__filename = filename
         else:
+            logger.warning(f'{ValueError}')
             raise ValueError("File must be JSON format")
 
     def serialize(self):
         with open(self.__filename, 'w') as file:
             json.dump(self.data, file, ensure_ascii=False)
+            logger.info(f'{self.data}')
 
     def deserialize(self):
         with open(self.__filename, 'r') as file:
             unpacked = json.load(file)
             print(unpacked)
+            logger.debug(f'{unpacked}')
 
 
 class SerializeBin(SerializationInterface):
@@ -89,22 +97,12 @@ class SerializeBin(SerializationInterface):
             print(unpacked)
 
 
-test_data = {'name': 'Vladyslav', 'phone': ['0936007646', '0637362574'], 'age': 32}
-
-json_test = SerializeJson(test_data, 'DB.json')
-json_test.serialize()
-json_test.deserialize()
-
-bin_test = SerializeBin(test_data, 'DB.bin')
-bin_test.serialize()
-bin_test.deserialize()
-
-
 # задание 2
 
 class Meta(type):
     class_number = 0
     children_number = 0
+    logger.debug(f'{children_number, class_number}')
 
     def __new__(cls, *args):
         instance = type.__new__(cls, *args)
@@ -113,6 +111,7 @@ class Meta(type):
         instance.class_number = cls.class_number
         cls.class_number += 1
         cls.children_number += 1
+        logger.info(f'{instance}')
         return instance
 
 
@@ -129,8 +128,17 @@ class Cls2(metaclass=Meta):
         self.data = data
 
 
-assert (Cls1.class_number, Cls2.class_number) == (0, 1)
-a, b = Cls1(''), Cls2('')
-assert (a.class_number, b.class_number) == (0, 1)
+if __name__ == '__main__':
+    assert (Cls1.class_number, Cls2.class_number) == (0, 1)
+    a, b = Cls1(''), Cls2('')
+    assert (a.class_number, b.class_number) == (0, 1)
+    test_data = {'name': 'Vladyslav', 'phone': ['0936007646', '0637362574'], 'age': 32}
 
+    json_test = SerializeJson(test_data, 'DB.json')
+    json_test.serialize()
+    json_test.deserialize()
+    #json_test_wrong = SerializeJson(test_data, 'DB.txt')
 
+    bin_test = SerializeBin(test_data, 'DB.bin')
+    bin_test.serialize()
+    bin_test.deserialize()
