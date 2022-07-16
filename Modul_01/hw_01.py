@@ -23,10 +23,9 @@ a, b = Cls1(''), Cls2('')
 assert (a.class_number, b.class_number) == (0, 1) """
 
 # Задача 1
-from abc import ABCMeta, abstractmethod, ABC
+from abc import ABCMeta, abstractmethod
 import json
 import pickle
-import logging
 from my_logger import get_logger
 
 logger = get_logger(__name__)
@@ -137,7 +136,7 @@ if __name__ == '__main__':
     json_test = SerializeJson(test_data, 'DB.json')
     json_test.serialize()
     json_test.deserialize()
-    #json_test_wrong = SerializeJson(test_data, 'DB.txt')
+    # json_test_wrong = SerializeJson(test_data, 'DB.txt')
 
     bin_test = SerializeBin(test_data, 'DB.bin')
     bin_test.serialize()
