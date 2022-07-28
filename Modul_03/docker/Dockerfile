@@ -1,13 +1,11 @@
-FROM python:3
+FROM python:3.10
 
-WORKDIR /app
-
-COPY . ./
+WORKDIR /docker
 
 EXPOSE 8001
 
-RUN pip install --upgrade pip
+COPY . /docker
 
-COPY . .
+RUN pip install -r requirements.txt
 
-CMD [ "python", "./app.py" ]
+CMD [ "python", "main.py" ]
