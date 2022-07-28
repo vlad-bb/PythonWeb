@@ -1,0 +1,2 @@
+helpme-assistance==0.2.9
+phonenumbers==8.12.50

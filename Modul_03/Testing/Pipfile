@@ -4,8 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-helpme-assistance = "==0.2.9"
-phonenumbers = "==8.12.50"
+docker = "*"
 
 [dev-packages]
 
