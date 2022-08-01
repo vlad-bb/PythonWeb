@@ -10,8 +10,15 @@ def goodbye(*args):
 
 
 def handle_media(filename: Path, target_folder: Path):
-    target_folder.mkdir(exist_ok=True, parents=True)
-    filename.replace(target_folder / (normalize(filename.name[:-len(filename.suffix)]) + filename.suffix))
+    try:
+        target_folder.mkdir(exist_ok=True, parents=True)
+        filename.replace(target_folder / (normalize(filename.name[:-len(filename.suffix)]) + filename.suffix))
+    except IsADirectoryError:
+        return 'IsADirectoryError'
+    except FileNotFoundError:
+        return 'FileNotFoundError'
+    except PermissionError:
+        return 'PermissionError'
 
 
 def handle_other(filename: Path, target_folder: Path):
@@ -27,8 +34,15 @@ def handle_other(filename: Path, target_folder: Path):
 
 
 def handle_archive(filename: Path, target_folder: Path):
-    target_folder.mkdir(exist_ok=True, parents=True)
-    filename.replace(target_folder / (normalize(filename.name[:-len(filename.suffix)]) + filename.suffix))
+    try:
+        target_folder.mkdir(exist_ok=True, parents=True)
+        filename.replace(target_folder / (normalize(filename.name[:-len(filename.suffix)]) + filename.suffix))
+    except IsADirectoryError:
+        return 'IsADirectoryError'
+    except FileNotFoundError:
+        return 'FileNotFoundError'
+    except PermissionError:
+        return 'PermissionError'
 
 
 def handle_programs(filename: Path, target_folder: Path):
@@ -56,7 +70,14 @@ def file_parser(*args):
     try:
         folder_for_scan = Path(args[0])
         with ThreadPoolExecutor(max_workers=4) as executor:
-            executor.submit(scan, folder_for_scan.resolve())
+            thread_1 = executor.submit(scan, folder_for_scan.resolve())
+            print(f'Thread 1: {thread_1.__dict__["_state"]}')
+            thread_2 = executor.submit(scan, folder_for_scan.resolve())
+            print(f'Thread 2: {thread_2.__dict__["_state"]}')
+            thread_3 = executor.submit(scan, folder_for_scan.resolve())
+            print(f'Thread 3: {thread_3.__dict__["_state"]}')
+            thread_4 = executor.submit(scan, folder_for_scan.resolve())
+            print(f'Thread 4: {thread_4.__dict__["_state"]}')
     except FileNotFoundError:
         return f"Not able to find '{args[0]}' folder. Please enter a correct folder name."
     except IndexError:
@@ -122,7 +143,13 @@ def file_parser(*args):
     for folder in FOLDERS[::-1]:
         handle_folder(folder)
 
-    return f'{star}''\n'f"Files in {args[0]} sorted succesffully"'\n'f'{star}'
+    return f'{star}''\n'\
+           f"Files in {args[0]}  sorted succesffully"'\n' \
+           f'Thread 1: {thread_1.__dict__["_state"]}''\n' \
+           f'Thread 2: {thread_2.__dict__["_state"]}''\n' \
+           f'Thread 3: {thread_3.__dict__["_state"]}''\n' \
+           f'Thread 4: {thread_4.__dict__["_state"]}''\n' \
+           f'{star}'
 
 
 COMMANDS = {file_parser: ['clean', 'clear'], goodbye: ['good bye', 'close', 'exit', '.']}
