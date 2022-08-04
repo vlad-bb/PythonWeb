@@ -11,8 +11,10 @@ def goodbye(*args):
 
 def handle_media(filename: Path, target_folder: Path):
     try:
+        # filename = Path(filename)
         target_folder.mkdir(exist_ok=True, parents=True)
         filename.replace(target_folder / (normalize(filename.name[:-len(filename.suffix)]) + filename.suffix))
+        print(filename.home())
     except IsADirectoryError:
         return 'IsADirectoryError'
     except FileNotFoundError:
@@ -23,6 +25,7 @@ def handle_media(filename: Path, target_folder: Path):
 
 def handle_other(filename: Path, target_folder: Path):
     try:
+        # filename = Path(filename)
         target_folder.mkdir(exist_ok=True, parents=True)
         filename.replace(target_folder / (normalize(filename.name[:-len(filename.suffix)]) + filename.suffix))
     except IsADirectoryError:
@@ -35,6 +38,7 @@ def handle_other(filename: Path, target_folder: Path):
 
 def handle_archive(filename: Path, target_folder: Path):
     try:
+        # filename = Path(filename)
         target_folder.mkdir(exist_ok=True, parents=True)
         filename.replace(target_folder / (normalize(filename.name[:-len(filename.suffix)]) + filename.suffix))
     except IsADirectoryError:
@@ -47,8 +51,10 @@ def handle_archive(filename: Path, target_folder: Path):
 
 def handle_programs(filename: Path, target_folder: Path):
     try:
+        # filename = Path(filename)
         target_folder.mkdir(exist_ok=True, parents=True)
         filename.replace(target_folder / (normalize(filename.name[:-len(filename.suffix)]) + filename.suffix))
+        print(filename)
     except IsADirectoryError:
         return 'IsADirectoryError'
     except FileNotFoundError:
@@ -69,15 +75,7 @@ def file_parser(*args):
     star = '*' * 60
     try:
         folder_for_scan = Path(args[0])
-        with ThreadPoolExecutor(max_workers=4) as executor:
-            thread_1 = executor.submit(scan, folder_for_scan.resolve())
-            print(f'Thread 1: {thread_1.__dict__["_state"]}')
-            thread_2 = executor.submit(scan, folder_for_scan.resolve())
-            print(f'Thread 2: {thread_2.__dict__["_state"]}')
-            thread_3 = executor.submit(scan, folder_for_scan.resolve())
-            print(f'Thread 3: {thread_3.__dict__["_state"]}')
-            thread_4 = executor.submit(scan, folder_for_scan.resolve())
-            print(f'Thread 4: {thread_4.__dict__["_state"]}')
+        glob_scan(folder_for_scan)
     except FileNotFoundError:
         return f"Not able to find '{args[0]}' folder. Please enter a correct folder name."
     except IndexError:
@@ -85,71 +83,68 @@ def file_parser(*args):
     except IsADirectoryError:
         return 'Unknown file '
     for file in JPEG_IMAGES:
-        handle_media(file, Path(args[0] + '/' + 'images' + '/' + 'JPEG'))
+        handle_media(Path(file), Path(args[0] + '/' + 'images' + '/' + 'JPEG'))
     for file in JPG_IMAGES:
-        handle_media(file, Path(args[0] + '/' + 'images' + '/' + 'JPG'))
+        handle_media(Path(file), Path(args[0] + '/' + 'images' + '/' + 'JPG'))
     for file in PNG_IMAGES:
-        handle_media(file, Path(args[0] + '/' + 'images' + '/' + 'PNG'))
+        handle_media(Path(file), Path(args[0] + '/' + 'images' + '/' + 'PNG'))
     for file in SVG_IMAGES:
-        handle_media(file, Path(args[0] + '/' + 'images' + '/' + 'SVG'))
+        handle_media(Path(file), Path(args[0] + '/' + 'images' + '/' + 'SVG'))
     for file in GIF_IMAGES:
-        handle_media(file, Path(args[0] + '/' + 'images' + '/' + 'GIF'))
+        handle_media(Path(file), Path(args[0] + '/' + 'images' + '/' + 'GIF'))
     for file in MP3_AUDIO:
-        handle_media(file, Path(args[0] + '/' + 'audio' + '/' + 'MP3'))
+        handle_media(Path(file), Path(args[0] + '/' + 'audio' + '/' + 'MP3'))
     for file in OGG_AUDIO:
-        handle_media(file, Path(args[0] + '/' + 'audio' + '/' + 'OGG'))
+        handle_media(Path(file), Path(args[0] + '/' + 'audio' + '/' + 'OGG'))
     for file in WAV_AUDIO:
-        handle_media(file, Path(args[0] + '/' + 'audio' + '/' + 'WAV'))
+        handle_media(Path(file), Path(args[0] + '/' + 'audio' + '/' + 'WAV'))
     for file in AMR_AUDIO:
-        handle_media(file, Path(args[0] + '/' + 'audio' + '/' + 'AMR'))
+        handle_media(Path(file), Path(args[0] + '/' + 'audio' + '/' + 'AMR'))
     for file in AVI_VIDEO:
-        handle_media(file, Path(args[0] + '/' + 'video' + '/' + 'AVI'))
+        handle_media(Path(file), Path(args[0] + '/' + 'video' + '/' + 'AVI'))
     for file in MP4_VIDEO:
-        handle_media(file, Path(args[0] + '/' + 'video' + '/' + 'MP4'))
+        handle_media(Path(file), Path(args[0] + '/' + 'video' + '/' + 'MP4'))
     for file in MOV_VIDEO:
-        handle_media(file, Path(args[0] + '/' + 'video' + '/' + 'MOV'))
+        handle_media(Path(file), Path(args[0] + '/' + 'video' + '/' + 'MOV'))
     for file in MKV_VIDEO:
-        handle_media(file, Path(args[0] + '/' + 'video' + '/' + 'MKV'))
+        handle_media(Path(file), Path(args[0] + '/' + 'video' + '/' + 'MKV'))
     for file in DOC_DOCUMENT:
-        handle_media(file, Path(args[0] + '/' + 'document' + '/' + 'DOC'))
+        handle_media(Path(file), Path(args[0] + '/' + 'document' + '/' + 'DOC'))
     for file in DOCX_DOCUMENT:
-        handle_media(file, Path(args[0] + '/' + 'document' + '/' + 'DOCX'))
+        handle_media(Path(file), Path(args[0] + '/' + 'document' + '/' + 'DOCX'))
     for file in TXT_DOCUMENT:
-        handle_media(file, Path(args[0] + '/' + 'document' + '/' + 'TXT'))
+        handle_media(Path(file), Path(args[0] + '/' + 'document' + '/' + 'TXT'))
     for file in PDF_DOCUMENT:
-        handle_media(file, Path(args[0] + '/' + 'document' + '/' + 'PDF'))
+        handle_media(Path(file), Path(args[0] + '/' + 'document' + '/' + 'PDF'))
+        print(Path(file))
     for file in XLSX_DOCUMENT:
-        handle_media(file, Path(args[0] + '/' + 'document' + '/' + 'XLSX'))
+        handle_media(Path(file), Path(args[0] + '/' + 'document' + '/' + 'XLSX'))
     for file in XLS_DOCUMENT:
-        handle_media(file, Path(args[0] + '/' + 'document' + '/' + 'XLS'))
+        handle_media(Path(file), Path(args[0] + '/' + 'document' + '/' + 'XLS'))
     for file in CSV_DOCUMENT:
-        handle_media(file, Path(args[0] + '/' + 'document' + '/' + 'CSV'))
+        handle_media(Path(file), Path(args[0] + '/' + 'document' + '/' + 'CSV'))
     for file in PPTX_DOCUMENT:
-        handle_media(file, Path(args[0] + '/' + 'document' + '/' + 'PPTX'))
+        handle_media(Path(file), Path(args[0] + '/' + 'document' + '/' + 'PPTX'))
     for file in OTHER:
-        handle_other(file, Path(args[0] + '/' + 'other'))
+        handle_other(Path(file), Path(args[0] + '/' + 'other'))
     for file in OTHER:
-        handle_programs(file, Path(args[0] + '/' + 'programs' + '/' + 'APP'))
+        handle_programs(Path(file), Path(args[0] + '/' + 'programs' + '/' + 'APP'))
     for file in ZIP_ARCHIVES:
-        handle_archive(file, Path(args[0] + '/' + 'archives' + '/' + 'ZIP'))
+        handle_archive(Path(file), Path(args[0] + '/' + 'archives' + '/' + 'ZIP'))
     for file in GZ_ARCHIVES:
-        handle_archive(file, Path(args[0] + '/' + 'archives' + '/' + 'GZ'))
+        handle_archive(Path(file), Path(args[0] + '/' + 'archives' + '/' + 'GZ'))
     for file in TAR_ARCHIVES:
-        handle_archive(file, Path(args[0] + '/' + 'archives' + '/' + 'TAR'))
+        handle_archive(Path(file), Path(args[0] + '/' + 'archives' + '/' + 'TAR'))
     for file in RAR_ARCHIVES:
-        handle_archive(file, Path(args[0] + '/' + 'archives' + '/' + 'RAR'))
+        handle_archive(Path(file), Path(args[0] + '/' + 'archives' + '/' + 'RAR'))
     for file in ARJ_ARCHIVES:
-        handle_archive(file, Path(args[0] + '/' + 'archives' + '/' + 'ARJ'))
+        handle_archive(Path(file), Path(args[0] + '/' + 'archives' + '/' + 'ARJ'))
     for folder in FOLDERS[::-1]:
         handle_folder(folder)
 
     return f'{star}''\n'\
-           f"Files in {args[0]}  sorted succesffully"'\n' \
-           f'Thread 1: {thread_1.__dict__["_state"]}''\n' \
-           f'Thread 2: {thread_2.__dict__["_state"]}''\n' \
-           f'Thread 3: {thread_3.__dict__["_state"]}''\n' \
-           f'Thread 4: {thread_4.__dict__["_state"]}''\n' \
-           f'{star}'
+           f"Files in {args[0]}  sorted succesffully"'\n'\
+           '{star}'
 
 
 COMMANDS = {file_parser: ['clean', 'clear'], goodbye: ['good bye', 'close', 'exit', '.']}
