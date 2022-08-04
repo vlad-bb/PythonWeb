@@ -5,7 +5,9 @@ description = ""
 authors = ["Vladyslav Babenko <96999713+vlad-bb@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "3.10.4"
+auto-py-to-exe = "^2.21.1"
+pyinstaller = "^5.3"
 
 [tool.poetry.dev-dependencies]
 

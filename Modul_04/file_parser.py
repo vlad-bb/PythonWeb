@@ -1,3 +1,4 @@
+from concurrent import futures
 from pathlib import Path
 
 
@@ -73,6 +74,10 @@ def get_extension(filename: str) -> str:
     return Path(filename).suffix[1:].upper()
 
 
+def glob_scan(folder: Path):
+    return Path(folder).rglob('**/*')
+
+
 def scan(folder: Path) -> None:
     for item in folder.iterdir():
         if item.is_dir():
@@ -92,5 +97,7 @@ def scan(folder: Path) -> None:
             except KeyError:
                 UNKNOWN.add(ext)
                 OTHER.append(fullname)
+
+
 
 
