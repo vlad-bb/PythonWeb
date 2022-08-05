@@ -48,7 +48,7 @@ def handle_folder(folder: Path):
     try:
         folder.rmdir()
     except OSError:
-        return f"Folder deletion failed {folder}"
+        print(f"Folder deletion failed {folder}")
 
 
 def file_parser(*args):
@@ -106,11 +106,11 @@ def file_parser(*args):
         handle_media(file, Path(args[0] + '/' + 'document' + '/' + 'PPTX'))
     for file in OTHER:
         handle_other(file, Path(args[0] + '/' + 'other'))
-    for file in OTHER:
+    for file in APP_PROGRAMS:
         handle_programs(file, Path(args[0] + '/' + 'programs' + '/' + 'APP'))
-    for file in OTHER:
+    for file in PY_PROGRAMS:
         handle_programs(file, Path(args[0] + '/' + 'programs' + '/' + 'PY'))
-    for file in OTHER:
+    for file in HTML_PROGRAMS:
         handle_programs(file, Path(args[0] + '/' + 'programs' + '/' + 'HTML'))
     for file in ZIP_ARCHIVES:
         handle_archive(file, Path(args[0] + '/' + 'archives' + '/' + 'ZIP'))

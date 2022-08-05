@@ -85,7 +85,6 @@ def scan(folder: Path):
 def sorter(file_list, folder):
     for i in range(len(file_list)):
         item = file_list[i]
-        print(item)
         if item.is_dir():
             if item.name not in ('archives', 'video', 'audio', 'documents', 'images', 'programs', 'OTHER'):
                 FOLDERS.append(item)
