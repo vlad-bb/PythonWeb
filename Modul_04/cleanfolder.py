@@ -45,10 +45,11 @@ def handle_programs(filename: Path, target_folder: Path):
 
 
 def handle_folder(folder: Path):
-    try:
-        folder.rmdir()
-    except OSError:
-        print(f"Folder deletion failed {folder}")
+    folder.rmdir()
+    # try:
+    #     folder.rmdir()
+    # except OSError:
+    #     print(f"Folder deletion failed {folder}")
 
 
 def file_parser(*args):
