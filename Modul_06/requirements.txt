@@ -1,0 +1,14 @@
+aiofile @ file:///Users/admin/Library/Caches/pypoetry/artifacts/ec/97/87/532fb2715cf2b8b866d335f31c8370f0e5ec602ae7d15551a1d63bcbe3/aiofile-3.8.1.tar.gz
+aiohttp==3.8.1
+aiopath @ file:///Users/admin/Library/Caches/pypoetry/artifacts/f8/01/16/f3cfdda8923ddcb91134b4dee78532813365a56a774877435445fb9eac/aiopath-0.6.10-py2.py3-none-any.whl
+aiosignal==1.2.0
+anyio @ file:///Users/admin/Library/Caches/pypoetry/artifacts/cd/3f/ae/baff749ce6cb4d7985e4142650605d2d30cb92eb418e2d121868e4413d/anyio-3.6.1-py3-none-any.whl
+async-timeout==4.0.2
+attrs==22.1.0
+caio @ file:///Users/admin/Library/Caches/pypoetry/artifacts/4c/4c/e4/234252da701ec3b20739a171a95cba699032e2aa85a346c43d06a2ed05/caio-0.9.7-py3-none-any.whl
+charset-normalizer==2.1.0
+frozenlist==1.3.1
+idna==3.3
+multidict==6.0.2
+sniffio @ file:///Users/admin/Library/Caches/pypoetry/artifacts/2b/1b/93/9c34d727e29f7bb11ce5b2ca7f43e77cb4e96a81ee5e07a92763951416/sniffio-1.2.0-py3-none-any.whl
+yarl==1.8.1
