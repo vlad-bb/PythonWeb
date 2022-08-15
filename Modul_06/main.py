@@ -30,14 +30,14 @@ async def sorter(folder) -> Dict[Tuple[str, str], List[AsyncPath]]:
     return result_dict
 
 
-async def get_bad_folders(folder: AsyncPath) -> List[AsyncPath]:
+def get_bad_folders(folder: AsyncPath) -> List[AsyncPath]:
     folder_list = [
         folder
-        async for folder in folder.glob("*")
+        for folder in folder.glob("*")
         if folder.is_dir() and folder.name not in set(REGISTER_EXTENSIONS.values())
     ]
 
-    bad_folders_list = [list(AsyncPath(folder).glob("**/*")) for folder in folder_list]
+    bad_folders_list = [list(Path(folder).glob("**/*")) for folder in folder_list]
     for lst in bad_folders_list:
         if lst:
             folder_list.extend(lst)
@@ -45,12 +45,12 @@ async def get_bad_folders(folder: AsyncPath) -> List[AsyncPath]:
     return folder_list
 
 
-async def remove_folders(folders: List[AsyncPath]):
+def remove_folders(folders: List[AsyncPath]):
     positiv_result = []
     negativ_result = []
     for folder in folders[::-1]:
         try:
-            await folder.rmdir()
+            folder.rmdir()
             positiv_result.append(folder.name)
         except OSError:
             negativ_result.append(folder.name)
@@ -72,16 +72,16 @@ async def file_parser(folder_for_scan):
     for file_types, files in sorted_file_dict.items():
         for file in files:
             if not (folder_for_scan / file_types[1]).exists():
-                await (folder_for_scan / file_types[1]).mkdir()
+                (folder_for_scan / file_types[1]).mkdir()
             if not (folder_for_scan / file_types[1] / file_types[0]).exists():
-                await (folder_for_scan / file_types[1] / file_types[0]).mkdir()
-            await file.replace(folder_for_scan / file_types[1] / file_types[0] / file.name)
+                (folder_for_scan / file_types[1] / file_types[0]).mkdir()
+            file.replace(folder_for_scan / file_types[1] / file_types[0] / file.name)
 
-    old_folder_list = await get_bad_folders(folder_for_scan)
-    positive, negative = await remove_folders(old_folder_list)
+    old_folder_list = get_bad_folders(folder_for_scan)
+    positive, negative = remove_folders(old_folder_list)
     str_positive = "\n".join(positive)
     str_negative = "\n".join(negative)
-    return (
+    print(
         f"{star}"
         "\n"
         f"Files in {folder_for_scan} sorted succesffully"
@@ -97,8 +97,8 @@ async def file_parser(folder_for_scan):
 async def main(path):
     path = Path(path).resolve()
     # a_path = AsyncPath(path)
-    result = asyncio.gather(file_parser(path), return_exceptions=False)
-    print(result)
+    await asyncio.gather(file_parser(path), return_exceptions=False)
+    # logger.info(f'main result {result}')
 
 
 if __name__ == "__main__":
