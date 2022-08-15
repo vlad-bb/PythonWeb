@@ -17,7 +17,7 @@ def get_file_list(folder):
 
 async def sorter(folder) -> Dict[Tuple[str, str], List[AsyncPath]]:
     file_list = get_file_list(folder)
-    logger.info(f'file_list {file_list}')
+    # logger.info(f'file_list {file_list}')
     result_dict = {}
     for file in [files for files in file_list if files.is_file()]:
         ext = file.suffix[1:].upper()
@@ -26,7 +26,7 @@ async def sorter(folder) -> Dict[Tuple[str, str], List[AsyncPath]]:
             result_dict[(ext, file_type)].append(file)
         else:
             result_dict[(ext, file_type)] = [file]
-    logger.info(f'result_dict{result_dict}')
+    # logger.info(f'result_dict{result_dict}')
     return result_dict
 
 
@@ -104,6 +104,6 @@ async def main(path):
 if __name__ == "__main__":
     """ Speed test work with asyncio """
     timer = time()
-    logger.info(f'time {time()}')
+    # logger.info(f'time {time()}')
     asyncio.run(main('/Users/admin/Desktop/test'))
     print(f'Speed test work with asyncio {round(time() - timer, 4)}')
