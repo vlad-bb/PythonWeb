@@ -4,8 +4,8 @@
 
 * Test Folder has 153 mb of different files
 ``` 
-Speed test asinchronic work with asyncio 0.1876 sec
+Speed test asynchronic work with asyncio 0.1876 sec
 ```
 ``` 
-Speed test sinchronic work  0.2587 sec
+Speed test synchronic work  0.2587 sec
 ```
