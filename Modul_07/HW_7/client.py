@@ -13,7 +13,7 @@ def client():
 
             while True:
                 message = input('--> ')
-                if message.lower().strip() in ('end', 'stop', 'close', 'exit', '.'):
+                if message.lower().strip() in ('end', 'stop', 'close', 'exit'):
                     print('App stopped')
                     break
                 client_socket.send(message.encode())
