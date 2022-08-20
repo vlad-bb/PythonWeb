@@ -20,7 +20,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-      <img class="navbar-brand" src="assets/img/Layer.png" alt="" />
+      <img class="navbar-brand" src="{{pic}}" alt="" />
       <ul class="navbar-nav mr-auto">
         <li class="nav-item d-flex align-items-center">
           <a class="nav-link" href="/">
@@ -32,15 +32,31 @@
             <span class="menu__subtitle">Связаться со мной</span>
           </a>
         </li>
-        <li class="nav-item d-flex align-items-center">
+        <li class="nav-item active d-flex align-items-center">
           <a class="nav-link" href="/blog">
             <span class="menu__subtitle">Блог</span>
           </a>
         </li>
       </ul>
     </nav>
-    <section class="contacts">
-      <h1 class="alert">Ой извините, ничего не найдено :(</h1>
-    </section>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8 blog-main">
+          {% for record in blogs %}
+          <div class="blog-post">
+            <h2 class="blog-post-title">{{record.title}}</h2>
+            <p class="blog-post-meta">{{record.date}} by <a href="#">{{record.author}}</a></p>
+            <p>
+              {{record.text}}
+            </p>
+          </div>
+          {% endfor %}
+          <!-- /.blog-post -->
+
+        </div>
+        <!-- /.blog-main -->
+      </div>
+      <!-- /.row -->
+    </main>
   </body>
 </html>
