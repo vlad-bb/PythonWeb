@@ -1,21 +1,26 @@
 import socket
+import time
+
+from app_settings import *
 
 
 def client():
-    host = socket.gethostname()
-    port = 5000
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+            client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            client_socket.connect((TCP_IP, TCP_PORT))
+            print(f'Run app')
 
-    client_socket = socket.socket()
-    client_socket.connect((host, port))
-    message = input('--> ')
-
-    while message.lower().strip() != 'end':
-        client_socket.send(message.encode())
-        data = client_socket.recv(1024).decode()
-        print(f'received message: {data}')
-        message = input('--> ')
-
-    client_socket.close()
+            while True:
+                message = input('--> ')
+                if message.lower().strip() in ('end', 'stop', 'close', 'exit', '.'):
+                    print('App stopped')
+                    break
+                client_socket.send(message.encode())
+                data = client_socket.recv(CHUNK_BYTES).decode()
+                print(f'Received message: {data}')
+    except (ConnectionResetError, BrokenPipeError, ConnectionRefusedError) as err:
+        print(f'Connection was not established. {err}')
 
 
 if __name__ == '__main__':
