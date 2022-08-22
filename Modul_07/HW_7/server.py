@@ -9,7 +9,6 @@ def main():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         server_socket.bind((TCP_IP, TCP_PORT))
-        # print(f'Run server, port: {TCP_PORT}')
         server_socket.listen(10)
         print(f'Start echo server {server_socket.getsockname()}')
         with ThreadPoolExecutor(10) as client_pool:
