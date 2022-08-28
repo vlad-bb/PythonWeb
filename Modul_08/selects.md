@@ -1,6 +1,16 @@
 # Select Data 
 
 **1) 5 студентів із найбільшим середнім балом з усіх предметів**
+```
+SELECT round(AVG(m.mark)) as Середній_бал, s.first_name Імя, s.last_name  Прізвище
+FROM marks m
+LEFT JOIN students s ON m.student_id = s.id
+GROUP BY m.student_id
+ORDER BY AVG(m.mark) DESC
+LIMIT 5
+```
+![result 01](img/01.png)
+
 
 **2) студент із найвищим середнім балом з одного предмета**
 
