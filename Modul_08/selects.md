@@ -12,7 +12,7 @@
 `select t.first_name, t.last_name, s.subject 
 from teachers t 
 Join subjects s On s.teacher_id = t.id` 
-![result 05](/img/05.png)
+![result 05](/Users/admin/Documents/GitHub/PythonWeb/Modul_08/img/05.png)
 
 
 **6) Список студентів у групі**
