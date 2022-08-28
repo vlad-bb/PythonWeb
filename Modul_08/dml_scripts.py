@@ -100,7 +100,6 @@ VALUES (11, '2022-07-14', 3, 48, 3),
 """
 
 
-
 def get_students(count):
     for i in range(count):
         name = fake.first_name()
@@ -133,4 +132,3 @@ if __name__ == '__main__':
     get_students(50)
     get_teachers(4)
     get_mark(200)
-
