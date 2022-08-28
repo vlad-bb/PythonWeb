@@ -11,8 +11,16 @@ LIMIT 5
 ```
 ![result 01](img/01.png)
 
-
 **2) студент із найвищим середнім балом з одного предмета**
+```
+SELECT sub.subject as Предмет, round(avg(m.mark)) as 'Середній бал', s.first_name Імя, s.last_name  Прізвище
+FROM marks m
+JOIN students s ON m.student_id = s.id
+JOIN subjects sub ON m.subject_id = sub.id 
+GROUP BY m.subject_id 
+ORDER BY sub.id 
+```
+![result 01](img/02.png)
 
 **3) середній бал в групі по одному предмету**
 
