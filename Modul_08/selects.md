@@ -9,9 +9,12 @@
 **4) Середній бал у потоці**
 
 **5) Які курси читає викладач**
-`select t.first_name, t.last_name, s.subject 
-from teachers t 
-Join subjects s On s.teacher_id = t.id` 
+```
+select t.first_name, t.last_name, s.subject
+from teachers t
+Join subjects s On s.teacher_id = t.id
+``` 
+
 ![result 05](img/05.png)
 
 
