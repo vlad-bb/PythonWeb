@@ -32,18 +32,28 @@ GROUP BY s.id;
 ![result 01](img/03.png)
 
 **4) Середній бал у потоці**
+```
+SELECT FLOOR(AVG(m.mark)) as 'Середній бал в потоці'
+FROM marks m 
+```
+![result 01](img/04.png)
 
 **5) Які курси читає викладач**
 ```
 select t.first_name, t.last_name, s.subject
 from teachers t
 Join subjects s On s.teacher_id = t.id
-``` 
-
+```
 ![result 05](img/05.png)
 
-
 **6) Список студентів у групі**
+```
+SELECT s.id as ID, s.first_name as Імя, s.last_name as Прізвище, g.title as 'Назва групи'
+FROM students s 
+JOIN groups g ON g.id = s.group_id 
+WHERE  g.title = 'Перша'
+```
+![result 05](img/06.png)
 
 **7) Оцінки студентів у групі з предмета**
 
