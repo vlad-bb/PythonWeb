@@ -70,6 +70,15 @@ ORDER BY m.mark DESC;
 ![result 05](img/07.png)
 
 **8) Оцінки студентів у групі з предмета на останньому занятті**
+```
+SELECT max(m.lesson_date) as 'Дата заннятя', s.first_name as Імя, s.last_name as Прізвище, g.title as Група, sub.subject as Предмет
+FROM marks m
+LEFT JOIN students as s ON s.id = m.student_id
+LEFT JOIN groups g ON g.id = s.group_id 
+LEFT JOIN subjects sub ON sub.id = m.subject_id 
+WHERE m.subject_id = 2 and g.id = 3;
+```
+![result 05](img/08.png)
 
 **9) Список курсів, які відвідує студент**
 
