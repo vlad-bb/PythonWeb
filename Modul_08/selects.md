@@ -1,5 +1,7 @@
 # Select Data 
 
+![result 05](img/hw_db.png)
+
 **1) 5 студентів із найбільшим середнім балом з усіх предметів**
 ```
 SELECT round(AVG(m.mark)) as Середній_бал, s.first_name Імя, s.last_name  Прізвище
@@ -7,7 +9,7 @@ FROM marks m
 LEFT JOIN students s ON m.student_id = s.id
 GROUP BY m.student_id
 ORDER BY AVG(m.mark) DESC
-LIMIT 5
+LIMIT 5;
 ```
 ![result 01](img/01.png)
 
@@ -18,7 +20,7 @@ FROM marks m
 JOIN students s ON m.student_id = s.id
 JOIN subjects sub ON m.subject_id = sub.id 
 GROUP BY m.subject_id 
-ORDER BY sub.id 
+ORDER BY sub.id;
 ```
 ![result 01](img/02.png)
 
@@ -34,7 +36,7 @@ GROUP BY s.id;
 **4) Середній бал у потоці**
 ```
 SELECT FLOOR(AVG(m.mark)) as 'Середній бал в потоці'
-FROM marks m 
+FROM marks m;
 ```
 ![result 01](img/04.png)
 
@@ -42,7 +44,7 @@ FROM marks m
 ```
 select t.first_name, t.last_name, s.subject
 from teachers t
-Join subjects s On s.teacher_id = t.id
+Join subjects s On s.teacher_id = t.id;
 ```
 ![result 05](img/05.png)
 
@@ -51,11 +53,21 @@ Join subjects s On s.teacher_id = t.id
 SELECT s.id as ID, s.first_name as Імя, s.last_name as Прізвище, g.title as 'Назва групи'
 FROM students s 
 JOIN groups g ON g.id = s.group_id 
-WHERE  g.title = 'Перша'
+WHERE  g.title = 'Перша';
 ```
 ![result 05](img/06.png)
 
 **7) Оцінки студентів у групі з предмета**
+```
+SELECT s.first_name as Імя, s.last_name as Прізвище, m.mark as Оцінки, g.title as Група, sub.subject as Предмет
+FROM students s
+JOIN marks m ON m.student_id = s.id 
+JOIN groups g ON s.group_id = g.id 
+JOIN subjects sub ON m.subject_id  = sub.id 
+WHERE s.group_id = 2 and m.subject_id = 1
+ORDER BY m.mark DESC;
+```
+![result 05](img/07.png)
 
 **8) Оцінки студентів у групі з предмета на останньому занятті**
 
