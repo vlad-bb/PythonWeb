@@ -23,6 +23,13 @@ ORDER BY sub.id
 ![result 01](img/02.png)
 
 **3) середній бал в групі по одному предмету**
+```
+SELECT CEIL(avg(m.mark)) as 'Середній бал', s.subject 'Предмет' 
+FROM marks m
+JOIN subjects s ON m.subject_id = s.id 
+GROUP BY s.id;
+```
+![result 01](img/03.png)
 
 **4) Середній бал у потоці**
 
