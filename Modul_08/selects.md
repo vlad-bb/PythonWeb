@@ -102,5 +102,20 @@ WHERE s.id = 18 and t.id = 2;
 ![result 05](img/10.png)
 
 **11) Середній бал, який викладач ставить студенту**
+```
+SELECT round(avg(m.mark)) as 'Середній бал' ,s.first_name 'Імя студента', s.last_name 'Прізвище студента' 
+FROM students s 
+JOIN marks m ON m.student_id = s.id 
+JOIN teachers t ON t.id = m.teacher_id
+WHERE s.id = 22;
+```
+![result 05](img/11.png)
 
 **12) Середній бал, який ставить викладач**
+```
+SELECT ROUND(AVG(m.mark))  as 'Середній бал' , t.first_name 'Імя викладача', t.last_name 'Прізвище викладача'
+FROM teachers t
+JOIN marks m  ON teacher_id = m.teacher_id 
+WHERE  t.id = 2;
+```
+![result 05](img/12.png)
