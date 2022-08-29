@@ -81,6 +81,14 @@ WHERE m.subject_id = 2 and g.id = 3;
 ![result 05](img/08.png)
 
 **9) Список курсів, які відвідує студент**
+```
+SELECT DISTINCT s.id as ID, s.first_name as Імя, s.last_name as Прізвище,  sub.subject as Предмет
+FROM students s 
+JOIN marks m ON m.student_id  = s.id 
+JOIN subjects sub ON sub.id = m.subject_id 
+WHERE s.id = 8;
+```
+![result 05](img/09.png)
 
 **10) Список курсів, які студенту читає викладач**
 
