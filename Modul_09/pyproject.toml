@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "modul_09"
+version = "0.1.0"
+description = ""
+authors = ["Vladyslav Babenko <96999713+vlad-bb@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+phonenumbers = "^8.12.54"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

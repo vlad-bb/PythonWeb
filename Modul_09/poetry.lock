@@ -1,0 +1,18 @@
+[[package]]
+name = "phonenumbers"
+version = "8.12.54"
+description = "Python version of Google's common library for parsing, formatting, storing and validating international phone numbers."
+category = "main"
+optional = false
+python-versions = "*"
+
+[metadata]
+lock-version = "1.1"
+python-versions = "^3.10"
+content-hash = "f345f9d4f973cc605c485cd0925c5615a1aa02b6e3ca5bad0f820520b45c92e6"
+
+[metadata.files]
+phonenumbers = [
+    {file = "phonenumbers-8.12.54-py2.py3-none-any.whl", hash = "sha256:704676bb14b330eedaab1705ba77f52e5d8879249f222d8e639ef323face8303"},
+    {file = "phonenumbers-8.12.54.tar.gz", hash = "sha256:ec1ac87bed33640ef85e0b00be44e247c65367e8b846d3d8d0a10e0fb7aae1b9"},
+]
