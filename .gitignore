@@ -1,3 +1,7 @@
+# Config with personal data
+.config.ini
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
