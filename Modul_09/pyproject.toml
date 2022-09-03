@@ -7,6 +7,9 @@ authors = ["Vladyslav Babenko <96999713+vlad-bb@users.noreply.github.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 phonenumbers = "^8.12.54"
+alembic = "^1.8.1"
+SQLAlchemy = "^1.4.40"
+psycopg2-binary = "^2.9.3"
 
 [tool.poetry.dev-dependencies]
 
