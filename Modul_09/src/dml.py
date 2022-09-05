@@ -54,10 +54,15 @@ def update_birthday(name, birthday: str):
     add = session.query(Contact).get(id_)
     temp = birthday.split('.')
     temp.reverse()
-    print(temp)
     birthday_db = '-'.join(temp)
-    print(birthday_db, name)
     add.birthday = birthday_db
+    session.commit()
+
+
+def delete_phone(name, phone):
+    data = session.query(Phone.id, Contact.id).join(Contact). \
+        filter(Phone.phone == phone).filter(Contact.name == name).one()
+    session.query(Phone).get(data[0]).delete()
     session.commit()
 
 
@@ -69,5 +74,3 @@ def delete_contact(name):
 def delete_all():
     session.query(Contact).delete()
     session.commit()
-
-

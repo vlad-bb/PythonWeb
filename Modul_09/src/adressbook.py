@@ -127,6 +127,7 @@ class Record:
         self.phone_list.remove(phone)
         self.phone_list.append(new_phone)
 
+    @staticmethod
     def days_to_birthday(self, birthday: Birthday):
         if birthday.value is None:
             return None
@@ -178,7 +179,7 @@ def greeting(*args):
     return 'Hello! How can I help you?'
 
 
-@InputError
+# @InputError
 def add_contact(contacts, *args):
     name = Name(args[0])
     phone = Phone(args[1])
@@ -219,6 +220,7 @@ def del_phone(contacts, *args):
     name, phone = args[0], args[1]
     contacts[name].del_phone(Phone(phone))
     writing_db(contacts)
+    delete_phone(name, phone)
     return f'Delete phone {phone} from user {name}'
 
 
@@ -300,7 +302,7 @@ def find(contacts, *args):
     return result
 
 
-# @InputError
+@InputError
 def del_user(contacts, *args):
     name = args[0]
     yes_no = input(f'Are you sure you want to delete the user {name}? (y/n) ')
@@ -363,6 +365,7 @@ file_name = 'app.AddressBook.bin'
 def writing_db(ab):
     with open(file_name, "wb") as fh:
         pickle.dump(ab, fh)
+        print(ab)
 
 
 def reading_db():
