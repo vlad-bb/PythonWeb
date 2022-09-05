@@ -252,7 +252,7 @@ def add_address(contacts, *args):
     return f'Add/modify address {address.title()} to user {name}'
 
 
-# @InputError
+@InputError
 def add_birthday(contacts, *args):
     name, birthday = args[0], args[1]
     contacts[name].birthday = Birthday(birthday)
@@ -300,13 +300,14 @@ def find(contacts, *args):
     return result
 
 
-@InputError
+# @InputError
 def del_user(contacts, *args):
     name = args[0]
     yes_no = input(f'Are you sure you want to delete the user {name}? (y/n) ')
     if yes_no == 'y':
         del contacts[name]
         writing_db(contacts)
+        delete_contact(name)
         return f'Delete user {name}'
 
     else:
@@ -319,6 +320,7 @@ def clear_all(contacts, *args):
     if yes_no == 'y':
         contacts.clear()
         writing_db(contacts)
+        delete_all()
         return 'Address book is empty'
     else:
         return 'Removal canceled'

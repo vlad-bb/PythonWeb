@@ -61,3 +61,13 @@ def update_birthday(name, birthday: str):
     session.commit()
 
 
+def delete_contact(name):
+    session.query(Contact).filter(Contact.name == name).delete()
+    session.commit()
+
+
+def delete_all():
+    session.query(Contact).delete()
+    session.commit()
+
+
