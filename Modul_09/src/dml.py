@@ -18,9 +18,10 @@ class ExceptError:
 
 
 @ExceptError
-def create_contact(name, phone):
+def create_contact(name, last_name, phone):
     contact = Contact(
-        name=str(name))
+        name=str(name),
+        last_name=last_name)
     session.add(contact)
     session.commit()
     cont_id = session.query(Contact.id).filter(Contact.name == str(name)).scalar()
@@ -36,7 +37,7 @@ def update_contact(name, phone):
     cont_id = session.query(Contact.id).filter(Contact.name == str(name)).first()
     phones = Phone(
         phone=str(phone),
-        contacts_id=cont_id)
+        contacts_id=cont_id[0])
     session.add(phones)
     session.commit()
 
@@ -44,10 +45,9 @@ def update_contact(name, phone):
 @ExceptError
 def change_phone_db(name, old_phone, new_phone):
     data = session.query(Phone.id, Contact.id).join(Contact). \
-        filter(Phone.phone == old_phone).filter(Contact.name == name).one()
-    edit = session.query(Phone).get(data[0])
+        filter(Phone.phone == old_phone).filter(Contact.name == name).scalar()
+    edit = session.query(Phone).get(data)
     edit.phone = new_phone
-    edit.contacts_id = data[1]
     session.commit()
 
 
@@ -56,6 +56,14 @@ def update_email(name, email):
     id_ = session.query(Contact.id).filter(Contact.name == name).first()
     add = session.query(Contact).get(id_)
     add.email = email
+    session.commit()
+
+
+@ExceptError
+def update_last_name(name, last_name):
+    id_ = session.query(Contact.id).filter(Contact.name == name).first()
+    add = session.query(Contact).get(id_)
+    add.last_name = last_name
     session.commit()
 
 
@@ -99,6 +107,15 @@ def delete_all():
 
 
 @ExceptError
+def check_name(name):
+    contact = session.query(Contact).filter(Contact.name == str(name)).scalar()
+    if not contact:
+        return False
+    else:
+        return True
+
+
+@ExceptError
 def show_phone_db(name):
     phones = session.query(Phone.id).join(Contact).filter(Contact.name == name).all()
     if not phones:
@@ -117,9 +134,31 @@ def show_all_db():
     results = session.query(Contact, Phone.phone).join(Phone).all()
     result = 'List of all users:\n'
     for user, phones in results:
-        result += f'Contact {user.name} has phone: {phones}, birthday: {user.birthday}, email: {user.email}, address: {user.address}\n'
+        result += f'Contact {user.name} {user.last_name} has phone: {phones}, birthday: {user.birthday}, email: {user.email}, address: {user.address}\n'
     session.commit()
     return result
 
 
+@ExceptError
+def show_birthday(name):
+    contact = session.query(Contact).filter(Contact.name == name).first()
+    birthday = contact.birthday
+    session.commit()
+    return birthday
+
+
+@ExceptError
+def find_data(sub):
+    results = session.query(Contact, Phone.phone).join(Phone).all()
+    for user, phones in results:
+        birthday = user.birthday.strftime("%Y-%m-%d")
+        if sub in user.name or sub in user.last_name or sub in phones \
+                or sub in birthday or sub in user.email or sub in user.address:
+            return f'User {user.name} {user.last_name},' \
+                   f' phone: {phones},' \
+                   f' birthday: {user.birthday},' \
+                   f' email: {user.email},' \
+                   f' address: {user.address}'
+        else:
+            return f'Not data for your request {sub}'
 
