@@ -1,3 +1,4 @@
+from mongoengine import DoesNotExist, MultipleObjectsReturned
 from mongoengine.queryset.visitor import Q
 from HW.mongo_db_app.src.models import Contact
 
@@ -9,6 +10,10 @@ class ExceptError:
     def __call__(self, *args):
         try:
             return self.func(*args)
+        except DoesNotExist as err:
+            print(err)
+        except MultipleObjectsReturned as err:
+            print('Write name last name for searching')
         except Exception as err:
             print(err)
 
@@ -18,135 +23,93 @@ def create_contact(name, last_name, phone):
     Contact(name=name, last_name=last_name, phone=phone).save()
 
 
-#  @ExceptError
-# def check_name(name, last_name):
-#     contact = Contact.objects(Q(name=name) & Q(last_name=last_name))
-#     # print(contact)
-#     if contact:
-#         return False
-#     else:
-#         return True
+@ExceptError
+def change_phone_db(name, last_name, new_phone):
+    contact = Contact.objects(Q(name=name) & Q(last_name=last_name))
+    contact.update(phone=new_phone)
 
-# @ExceptError
-# def update_contact(name, phone):
-#     cont_id = session.query(Contact.id).filter(Contact.name == str(name)).first()
-#     phones = Phone(
-#         phone=str(phone),
-#         contacts_id=cont_id[0])
-#     session.add(phones)
-#     session.commit()
-#
-#
-# @ExceptError
-# def change_phone_db(name, old_phone, new_phone):
-#     data = session.query(Phone.id, Contact.id).join(Contact). \
-#         filter(Phone.phone == old_phone).filter(Contact.name == name).scalar()
-#     edit = session.query(Phone).get(data)
-#     edit.phone = new_phone
-#     session.commit()
-#
-#
-# @ExceptError
-# def update_email(name, email):
-#     id_ = session.query(Contact.id).filter(Contact.name == name).first()
-#     add = session.query(Contact).get(id_)
-#     add.email = email
-#     session.commit()
-#
-#
-# @ExceptError
-# def update_last_name(name, last_name):
-#     id_ = session.query(Contact.id).filter(Contact.name == name).first()
-#     add = session.query(Contact).get(id_)
-#     add.last_name = last_name
-#     session.commit()
-#
-#
-# @ExceptError
-# def update_address(name, address):
-#     id_ = session.query(Contact.id).filter(Contact.name == name).first()
-#     add = session.query(Contact).get(id_)
-#     add.address = address
-#     session.commit()
-#
-#
-# @ExceptError
-# def update_birthday(name, birthday: str):
-#     id_ = session.query(Contact.id).filter(Contact.name == name).first()
-#     add = session.query(Contact).get(id_)
-#     temp = birthday.split('.')
-#     temp.reverse()
-#     birthday_db = '-'.join(temp)
-#     add.birthday = birthday_db
-#     session.commit()
-#
-#
-# @ExceptError
-# def delete_phone(name, phone):
-#     data = session.query(Phone.id, Contact.id).join(Contact). \
-#         filter(Phone.phone == phone).filter(Contact.name == name).one()
-#     session.query(Phone).get(data[0]).delete()
-#     session.commit()
-#
-#
-# @ExceptError
-# def delete_contact(name):
-#     session.query(Contact).filter(Contact.name == name).delete()
-#     session.commit()
-#
-#
+
+@ExceptError
+def update_email(name, last_name, email):
+    contact = Contact.objects(Q(name=name) & Q(last_name=last_name))
+    contact.update(email=email)
+
+
+@ExceptError
+def update_last_name(name, last_name):
+    contact = Contact.objects(Q(name=name) & Q(last_name='Incognito'))
+    contact.update(last_name=last_name)
+
+
+@ExceptError
+def update_address(name, last_name, address):
+    contact = Contact.objects(Q(name=name) & Q(last_name=last_name))
+    contact.update(address=address)
+
+
+@ExceptError
+def update_birthday(name, last_name, birthday):
+    contact = Contact.objects(Q(name=name) & Q(last_name=last_name))
+    contact.update(birthday=birthday)
+
+
+@ExceptError
+def delete_phone(name, last_name):
+    contact = Contact.objects(Q(name=name) & Q(last_name=last_name))
+    contact.update(phone='None')
+
+
+@ExceptError
+def delete_contact(name, last_name):
+    contact = Contact.objects(Q(name=name) & Q(last_name=last_name))
+    contact.delete()
+
+
 @ExceptError
 def delete_all():
-    pass
-#
-#
+    Contact.objects.delete()
 
-#
-#
-# @ExceptError
-# def show_phone_db(name):
-#     phones = session.query(Phone.id).join(Contact).filter(Contact.name == name).all()
-#     if not phones:
-#         return f'Contact {name} not found'
-#     else:
-#         print(f'Contact {name} have: ', end=' ')
-#         for phone in phones:
-#             for i in phone:
-#                 number = session.query(Phone).filter(Phone.id == i).one()
-#                 print(f'{number.phone}', end=' ')
-#         return f''
-#
-#
-# @ExceptError
-# def show_all_db():
-#     results = session.query(Contact, Phone.phone).join(Phone).all()
-#     result = 'List of all users:\n'
-#     for user, phones in results:
-#         result += f'Contact {user.name} {user.last_name} has phone: {phones}, birthday: {user.birthday}, email: {user.email}, address: {user.address}\n'
-#     session.commit()
-#     return result
-#
-#
-# @ExceptError
-# def show_birthday(name):
-#     contact = session.query(Contact).filter(Contact.name == name).first()
-#     birthday = contact.birthday
-#     session.commit()
-#     return birthday
-#
-#
-# @ExceptError
-# def find_data(sub):
-#     results = session.query(Contact, Phone.phone).join(Phone).all()
-#     for user, phones in results:
-#         birthday = user.birthday.strftime("%Y-%m-%d")
-#         if sub in user.name or sub in user.last_name or sub in phones \
-#                 or sub in birthday or sub in user.email or sub in user.address:
-#             return f'User {user.name} {user.last_name},' \
-#                    f' phone: {phones},' \
-#                    f' birthday: {user.birthday},' \
-#                    f' email: {user.email},' \
-#                    f' address: {user.address}'
-#         else:
-#             return f'Not data for your request {sub}'
-#
+
+@ExceptError
+def show_phone_db(name, last_name):
+    contact = Contact.objects.get(Q(name=name) & Q(last_name=last_name))
+    phone = contact.phone
+    return phone
+
+
+@ExceptError
+def show_all_db():
+    num_users = Contact.objects.count()
+    pag = '-' * 70
+    print(f'{pag}\nContact list\n{pag}')
+    for c in Contact.objects:
+        print(
+            f'Name: {c.name} \n'
+            f'Last name: {c.last_name} \n'
+            f'Phone: {c.phone}\n'
+            f'Email: {c.email}\n'
+            f'Birthday: {c.birthday}\n'
+            f'Address: {c.address}\n'
+            f'{pag}')
+    return num_users
+
+
+@ExceptError
+def show_birthday(name, last_name):
+    contact = Contact.objects.get(Q(name=name) & Q(last_name=last_name))
+    birthday = contact.birthday
+    return birthday
+
+
+@ExceptError
+def find_data(sub):
+    user = Contact.objects.search_text(sub).first()
+    if user:
+        return f'Name {user.name},\n' \
+               f'Last name {user.last_name},\n' \
+               f'Phone: {user.phone},\n' \
+               f'Birthday: {user.birthday},\n' \
+               f'Email: {user.email},\n' \
+               f'Address: {user.address}'
+    else:
+        return f'Data not found'

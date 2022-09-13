@@ -185,84 +185,93 @@ def add_contact(*args):
     return f'Add user {name.value.title()} {last_name.value.title()} with phone number {phone}'
 
 
+@InputError
+def change_contact(*args):
+    name, last_name, new_phone = args[0], args[1], args[2]
+    change_phone_db(name, last_name, new_phone)
+    return f'Change phone number {new_phone} to user {name} {last_name}'
 
 
-# @InputError
-# def change_contact(*args):
-#     name, old_phone, new_phone = args[0], args[1], args[2]
-#     change_phone_db(name, old_phone, new_phone)
-#     return f'Change to user {name} phone number from {old_phone} to {new_phone}'
-#
-#
-# @InputError
-# def show_phone(*args):
-#     name = args[0]
-#     return show_phone_db(name)
-#
-#
-# @InputError
-# def del_phone(*args):
-#     name, phone = args[0], args[1]
-#     delete_phone(name, phone)
-#     return f'Delete phone {phone} from user {name}'
-#
-#
-# @InputError
-# def show_all(*args):
-#     return show_all_db()
-#
-#
-# @InputError
-# def add_email(*args):
-#     name, email = args[0], args[1]
-#     update_email(name, email)
-#     return f'Add/modify email {email} to user {name}'
-#
-#
-# @InputError
-# def add_last_name(*args):
-#     name, last_name = args[0], args[1]
-#     update_last_name(name, last_name)
-#     return f'Add/modify last name {last_name} to user {name}'
-#
-#
-# @InputError
-# def add_address(*args):
-#     name, address = args[0], list(args[1:])
-#     address = " ".join(address)
-#     update_address(name, address)
-#     return f'Add/modify address {address.title()} to user {name}'
-#
-#
-# @InputError
-# def add_birthday(*args):
-#     name, birthday = args[0], args[1]
-#     update_birthday(name, args[1])
-#     return f'Add/modify birthday {birthday} to user {name}'
-#
-#
-# @InputError
-# def user_birthday(*args):
-#     name = args[0]
-#     birthday = show_birthday(name)
-#     if not birthday:
-#         return 'User has no birthday'
-#     else:
-#         return f'Birthday {name} in: {birthday}'
-#
-#
-# @InputError
-# def del_user(*args):
-#     name = args[0]
-#     yes_no = input(f'Are you sure you want to delete the user {name}? (y/n) ')
-#     if yes_no == 'y':
-#         delete_contact(name)
-#         return f'Delete user {name}'
-#
-#     else:
-#         return 'User not deleted'
-#
-#
+@InputError
+def show_phone(*args):
+    name = args[0]
+    last_name = args[1]
+    phones = show_phone_db(name, last_name)
+    if phones:
+        return f'Contact {name} {last_name} have phone {phones}'
+    else:
+        return f'Contact {name} {last_name} not found!'
+
+
+@InputError
+def del_phone(*args):
+    name, last_name = args[0], args[1]
+    delete_phone(name, last_name)
+    return f'Delete phone from user {name} {last_name}'
+
+
+@InputError
+def show_all(*args):
+    num_users = show_all_db()
+    if num_users > 0:
+        return f'AddressBook have {num_users} contacts'
+    else:
+        return f'AddressBook empty'
+
+
+@InputError
+def add_email(*args):
+    name, last_name, email = args[0], args[1], args[2]
+    update_email(name, last_name, email)
+    return f'Add/modify email {email} to user {name} {last_name}'
+
+
+@InputError
+def add_last_name(*args):
+    name, last_name = args[0], args[1]
+    update_last_name(name, last_name)
+    return f'Add/modify last name {last_name} to user {name}'
+
+
+@InputError
+def add_address(*args):
+    name, last_name, address = args[0], args[1], list(args[2:])
+    address = " ".join(address)
+    update_address(name, last_name, address)
+    return f'Add/modify address {address.title()} to user {name} {last_name}'
+
+
+@InputError
+def add_birthday(*args):
+    name, last_name, birthday = args[0], args[1], args[2]
+    update_birthday(name, last_name, birthday)
+    return f'Add/modify birthday {birthday} to user {name} {last_name}'
+
+
+@InputError
+def user_birthday(*args):
+    name = args[0]
+    last_name = args[1]
+    birthday = show_birthday(name, last_name)
+    if not birthday:
+        return 'User has no birthday'
+    else:
+        return f'Birthday {name} {last_name} in: {birthday}'
+
+
+@InputError
+def del_user(*args):
+    name = args[0]
+    last_name = args[1]
+    yes_no = input(f'Are you sure you want to delete the user {name}? (y/n) ')
+    if yes_no == 'y':
+        delete_contact(name, last_name)
+        return f'Delete user {name} {last_name}'
+
+    else:
+        return 'User not deleted'
+
+
 @InputError
 def clear_all():
     yes_no = input('Are you sure you want to delete all users? (y/n) ')
@@ -271,13 +280,13 @@ def clear_all():
         return 'Address book is empty'
     else:
         return 'Removal canceled'
-#
-#
-# @InputError
-# def find(*args):
-#     sub = ' '.join(args)
-#     data = find_data(sub)
-#     return data
+
+
+@InputError
+def find(*args):
+    sub = ' '.join(args)
+    data = find_data(sub)
+    return data
 
 
 def info():
@@ -287,22 +296,22 @@ def info():
     "close", "exit", "." --> Exit from AddressBook
     
     *********** Add/edit command **********
-    "add" name phone                  --> Add user to AddressBook
-    "change" name old_phone new_phone --> Change the user's phone number
-    "birthday" name birthday          --> Add/edit user birthday
-    "email" name email                --> Add/edit user email
+    "add" name last name  phone                  --> Add user to AddressBook
+    "change" name last name  new_phone --> Change the user's phone number
+    "birthday" name last name birthday          --> Add/edit user birthday
+    "email" name last name email                --> Add/edit user email
     "last name" name last name        --> Add/edit user last name
-    "address" name address            --> Add/edit user address
+    "address" name last name address            --> Add/edit user address
     
     *********** Delete command ***********
-    "del" name phone --> Delete phone number
-    "delete" name    --> Delete user
+    "del" name last name --> Delete phone number
+    "delete" name last name    --> Delete user
     "clear"          --> Delete all users
     
     *********** Info command *************
-    "show" name          --> Show user info
+    "show" name last name          --> Show user info
     "show all"           --> Show all users info
-    "user birthday" name --> Show how many days to user birthday
+    "user birthday" name last name  --> Show how many days to user birthday
     "find" data          --> Find any data 
     """
 
@@ -315,18 +324,18 @@ COMMANDS = {greeting: ['hello'],
             exiting: ['good bye', 'close', 'exit', '.'],
             info: ['help', '?'],
             add_contact: ['add '],
-            # change_contact: ['change '],
-            # show_all: ['show all'],
-            # del_phone: ['del '],
-            # add_birthday: ['birthday'],
-            # user_birthday: ['user birthday '],
-            # show_phone: ['show '],
-            # del_user: ['delete '],
+            change_contact: ['change '],
+            show_all: ['show all'],
+            del_phone: ['del '],
+            add_birthday: ['birthday'],
+            user_birthday: ['user birthday '],
+            show_phone: ['show '],
+            del_user: ['delete '],
             clear_all: ['clear'],
-            # add_email: ['email '],
-            # add_address: ['address'],
-            # add_last_name: ['last name'],
-            # find: ['find']
+            add_email: ['email '],
+            add_address: ['address'],
+            add_last_name: ['last name'],
+            find: ['find']
             }
 
 
