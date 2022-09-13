@@ -38,8 +38,8 @@ if __name__ == '__main__':
     result = convert(base_num, exp_num)
     print(f'Result {result}\nDuration without cache: {timeit.default_timer() - start_time} sec')
 
-    print('-'*50)
+    print('-' * 50)
 
     start_time = timeit.default_timer()
     result_cache = convert_cache_redis(base_num, exp_num)
-    print(f'Result {result_cache}\nDuration with Redis cache: {timeit.default_timer() - start_time}')  # Duration: 0.01373043299827259
+    print(f'Result {result_cache}\nDuration with Redis cache: {timeit.default_timer() - start_time}')

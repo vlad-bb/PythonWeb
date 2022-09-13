@@ -1,0 +1,14 @@
+from mongoengine import *
+
+connect(host='mongodb://localhost:27017/addressbook')
+
+
+class Contact(Document):
+    name = StringField(max_length=100, required=True)
+    last_name = StringField(max_length=100)
+    phone = StringField(max_length=20, required=True)
+    email = EmailField()
+    birthday = DateField()
+    address = StringField(max_length=500)
+
+
