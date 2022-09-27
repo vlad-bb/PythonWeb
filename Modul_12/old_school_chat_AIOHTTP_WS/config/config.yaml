@@ -1,0 +1,5 @@
+common:
+  port: 3000
+postgres:
+  database_url: postgres://postgres:simple5432@localhost/chat_bd
+  require_ssl: true
